@@ -77,3 +77,4 @@ def test_alert_service_run(devlake_db_session, app_db_session):
     # Verify audit log was recorded in SQLite
     audit_logs = app_db_session.query(AlertAuditLog).all()
     assert len(audit_logs) >= res["alerts_dispatched"]
+

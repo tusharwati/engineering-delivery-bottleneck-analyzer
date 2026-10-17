@@ -76,3 +76,4 @@ def root_index():
         "health": "/api/health",
         "pinned_devlake_version": "v1.0.2",
     }
+

@@ -37,3 +37,4 @@ def get_app_db():
         yield db
     finally:
         db.close()
+

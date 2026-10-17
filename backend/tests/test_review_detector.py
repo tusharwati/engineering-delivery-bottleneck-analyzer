@@ -120,3 +120,4 @@ def test_tool_reviews_recognition():
     assert res.reviewer_name == "charlie_lead"
     assert res.review_type == "FORMAL_REVIEW_APPROVED"
     assert res.confidence_tier == "HIGH"
+

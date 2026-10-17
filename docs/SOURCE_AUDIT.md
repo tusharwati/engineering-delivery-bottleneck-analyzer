@@ -173,3 +173,4 @@ To maintain engineering integrity, performance, and stability:
 * **Do Not Modify:** DevLake's core database tables, migrations, or backend source code.
 * **Separate Analytical Engine:** Implement our business-hours SLA, bot-filtering review detector, historical baseline calculator, explainable prioritizer, and alert engine in a separate, clean Python/FastAPI service with read-only access.
 * **Separate State:** Store alert deduplication state, dry-run logs, and custom configuration in a dedicated SQLite database completely separated from DevLake's database.
+

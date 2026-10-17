@@ -75,3 +75,4 @@ class AlertDeduplicator:
             db.add(new_record)
 
         db.commit()
+

@@ -122,3 +122,4 @@ def update_config(req: ConfigUpdateRequest):
         "message": "Runtime configuration updated successfully.",
         "config": get_config(),
     }
+

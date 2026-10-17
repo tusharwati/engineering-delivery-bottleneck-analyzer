@@ -43,3 +43,4 @@ def get_devlake_db():
         yield db
     finally:
         db.close()
+

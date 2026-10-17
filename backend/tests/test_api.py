@@ -86,3 +86,4 @@ def test_alerts_and_config_endpoints(test_client):
     update_res = test_client.post("/api/config", json={"review_sla_hours": 12.0})
     assert update_res.status_code == 200
     assert update_res.json()["config"]["review_sla_hours"] == 12.0
+

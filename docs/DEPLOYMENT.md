@@ -145,3 +145,4 @@ When deploying to AWS, Google Cloud, Azure, or Kubernetes:
 3. **Reverse Proxy & TLS:** Place Nginx or Traefik in front of the FastAPI backend and React frontend with valid TLS/SSL certificates.
 4. **Secret Management:** Inject `SLACK_WEBHOOK_URL` and `DEVLAKE_DB_URL` via AWS Secrets Manager, GCP Secret Manager, or Kubernetes Secrets.
 5. **CORS Restriction:** Restrict `CORS_ORIGINS` strictly to the production frontend domain name.
+

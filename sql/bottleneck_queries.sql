@@ -87,3 +87,4 @@ FROM pull_requests pr
 WHERE pr.created_date >= :start_date
 GROUP BY DATE(pr.created_date)
 ORDER BY date ASC;
+

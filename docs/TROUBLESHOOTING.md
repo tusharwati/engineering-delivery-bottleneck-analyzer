@@ -110,3 +110,4 @@
     ```
   - Verify the webhook has not been revoked in the Slack App Directory.
   - In development, keep `ALERT_DRY_RUN=true` to test formatting safely without sending external network requests.
+

@@ -198,3 +198,4 @@ sequenceDiagram
    Database connection strings, GitHub tokens, and Slack webhook URLs are loaded strictly from environment variables or a local `.env` file excluded from version control. Sensitive strings are masked in logs (e.g., `https://hooks.slack.com/services/T***/B***/X***`).
 4. **Boundary Isolation:**  
    The web dashboard connects to the backend through CORS-restricted APIs and does not receive raw database credentials.
+

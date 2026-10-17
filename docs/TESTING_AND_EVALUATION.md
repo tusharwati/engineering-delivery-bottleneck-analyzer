@@ -78,3 +78,4 @@ The evaluation suite (`backend/tests/test_evaluation.py`) executes this comparat
 1. **False Alarm Elimination:** In the naive wall-clock approach, every single PR opened on Friday evening or over the weekend was flagged as an SLA violation by Monday morning, generating **26 false positive alerts** and overwhelming engineering channels. The business-hours engine correctly recognized that these PRs had accumulated under 2 business hours of review wait time.
 2. **Bot Unmasking:** In 10 evaluation PRs where CI bots commented immediately, the naive model recorded pickup times under 2 minutes. The bot filter uncovered that human reviewers had not yet looked at 4 of those PRs, surfacing genuine overdue bottlenecks that would otherwise have been missed.
 3. **Execution Efficiency:** Calculating minute-accurate business-hours with holidays across 50 PRs took under 10 milliseconds in pure Python, well within real-time dashboard requirements.
+

@@ -107,3 +107,4 @@ class AlertService:
             "dry_run": is_dry_run,
             "dispatched_details": dispatched_details,
         }
+

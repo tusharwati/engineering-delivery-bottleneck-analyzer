@@ -55,3 +55,4 @@ def test_draft_pr_lower_urgency():
     readiness_factor = next(f for f in res.factors if f.name == "Review Readiness")
     assert readiness_factor.score == 0
     assert "Draft" in readiness_factor.reason
+

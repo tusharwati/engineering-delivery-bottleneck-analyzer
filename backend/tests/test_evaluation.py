@@ -43,3 +43,4 @@ def test_comparative_evaluation_execution(devlake_db_session):
 
     # Verification of performance: sub-100ms execution across sample PRs
     assert elapsed_ms < 100.0
+

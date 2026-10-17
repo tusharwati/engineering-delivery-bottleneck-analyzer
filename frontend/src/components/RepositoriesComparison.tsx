@@ -94,3 +94,4 @@ export const RepositoriesComparison: React.FC<RepositoriesComparisonProps> = ({
     </div>
   );
 };
+

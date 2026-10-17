@@ -149,3 +149,4 @@ services:
       - analyzer-backend
     networks:
       - devlake-net
+

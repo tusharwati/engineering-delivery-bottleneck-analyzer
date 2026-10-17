@@ -19,3 +19,4 @@ def test_schema_checker_missing_tables():
     assert result.status == "INCOMPATIBLE"
     assert "pull_requests" in result.missing_tables
     assert len(result.missing_tables) == 3
+

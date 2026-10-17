@@ -142,3 +142,4 @@ Accounts for queue congestion in the same repository:
 $$Q = \text{number of overdue PRs in the same repository}$$
 $$S_{\text{Backlog}} = \min(10, 2 \times Q)$$
 * **Explanation Output:** e.g., *"Repo has 4 overdue PRs creating review queue congestion [+8 pts]"*
+

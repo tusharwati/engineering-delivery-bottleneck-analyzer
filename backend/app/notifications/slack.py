@@ -131,3 +131,4 @@ def send_slack_notification(
                 }
 
     return {"status": "FAILED", "sent": False, "message": "Unknown error in Slack notifier."}
+

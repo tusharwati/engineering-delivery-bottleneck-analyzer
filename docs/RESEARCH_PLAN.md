@@ -86,3 +86,4 @@ flowchart LR
 2. **Predictive Queue Congestion Modeling:** Explore lightweight statistical forecasting (e.g. ARIMA or Poisson queueing models) to predict when a review backlog will exceed SLA capacity before breaches occur.
 3. **Reviewer Load Balancing Recommendations:** Suggest available reviewers based on recent review allocations, subject to team consent and strict safeguards against individual surveillance.
 4. **GitLab Merge Request Integration:** Extend the review qualifier to GitLab merge request note types (`DiffNote`, `DiscussionNote`).
+

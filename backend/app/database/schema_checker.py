@@ -109,3 +109,4 @@ def verify_devlake_schema(engine: Engine) -> SchemaCheckResult:
         logger.error(result.message)
 
     return result
+

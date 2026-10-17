@@ -145,3 +145,4 @@ def calculate_bottleneck_priority(
         priority_level=level,
         factors=factors,
     )
+

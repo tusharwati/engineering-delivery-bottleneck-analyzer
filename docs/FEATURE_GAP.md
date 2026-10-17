@@ -107,3 +107,4 @@ The table below contrasts capabilities natively provided by Apache DevLake again
   *Mitigation:* In GitHub, titles often prefix `[Draft]` or `WIP:`, or the tool table `_tool_github_pull_requests.is_draft` can be queried if available. If neither is available, the PR is treated as standard open and flagged with an explanation.
 * **Q3: What if historical data for a newly connected repository is fewer than 10 PRs?**  
   *Mitigation:* Flag the repository baseline as `INSUFFICIENT_DATA` and fall back to the team's standard SLA threshold.
+

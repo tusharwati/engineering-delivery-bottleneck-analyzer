@@ -33,3 +33,4 @@ def test_insufficient_sample_fallback():
     assert res.sample_count == 3
     assert res.effective_target_hours == 8.0  # Fallback to configured SLA
     assert res.fallback_sla_hours == 8.0
+

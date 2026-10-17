@@ -51,3 +51,4 @@ def schema_check():
     """
     result = verify_devlake_schema(engine_devlake)
     return result.to_dict()
+

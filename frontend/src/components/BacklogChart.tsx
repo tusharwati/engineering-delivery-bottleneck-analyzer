@@ -79,3 +79,4 @@ export const BacklogChart: React.FC<BacklogChartProps> = ({ trend }) => {
     </div>
   );
 };
+

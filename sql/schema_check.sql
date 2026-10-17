@@ -38,3 +38,4 @@
 -- 4. Verify optional tool-layer review table:
 --   - _tool_github_pull_request_reviews
 --   Columns: connection_id, github_id, pull_request_id, user_id, user_name, state, submitted_at, body
+

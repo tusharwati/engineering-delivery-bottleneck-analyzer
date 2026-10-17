@@ -115,3 +115,4 @@ export async function triggerAlertCheck(dryRun: boolean = true, minPriority: num
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return await res.json();
 }
+

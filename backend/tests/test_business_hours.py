@@ -125,3 +125,4 @@ def test_end_before_start():
     assert res.business_hours == 0.0
     assert res.calendar_hours == 0.0
     assert res.non_working_hours == 0.0
+

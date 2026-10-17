@@ -47,3 +47,4 @@ def setup_logger(name: str = "bottleneck_analyzer", level: str = "INFO") -> logg
 
 
 logger = setup_logger()
+

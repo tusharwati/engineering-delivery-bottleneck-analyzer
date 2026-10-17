@@ -132,3 +132,4 @@ class Settings(BaseSettings):
 
 # Global singleton settings
 settings = Settings()
+
