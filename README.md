@@ -84,14 +84,14 @@ Requires only **Python 3.11+** and **Node.js 18+**. Runs completely offline with
 ```powershell
 cd backend
 python -m pip install -r requirements.txt
-python -m app.fixtures.seed_mock_devlake
+python -m app.fixtures.seed_mock_dee
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 *Backend is live at `http://localhost:8000`. Swagger API docs at `http://localhost:8000/docs`.*
 
 #### Step 2: Start Frontend (Terminal 2)
 ```powershell
-cd frontend
+cd frontendvlak
 npm.cmd install
 npm.cmd run dev
 ```
@@ -173,7 +173,7 @@ A portable Grafana dashboard JSON file is provided in `dashboards/grafana-pr-bot
 * [`docs/DEFINITIONS.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/DEFINITIONS.md) — Precise mathematical definitions, SLA formulas, and event qualification rules.
 * [`docs/TESTING_AND_EVALUATION.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/TESTING_AND_EVALUATION.md) — Test suite documentation and quantitative evaluation results.
 * [`docs/RESEARCH_PLAN.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/RESEARCH_PLAN.md) — Research roadmap and related academic literature.
-* [`docs/DEPLOYMENT.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/DEPLOYMENT.md) — Multi-mode deployment and cloud hardening guide.
+* [`docs/DEPLOYMENT.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/DEPLOYMENT.md) — Windows 11 native quick start, tests, Docker/DevLake setup, configuration, and production deployment guidance.
 * [`docs/TROUBLESHOOTING.md`](file:///c:/Users/tshar/OneDrive/Pictures/Documents/GitHub/engineering-delivery-bottleneck-analyzer/docs/TROUBLESHOOTING.md) — Operational troubleshooting for Windows 11, Docker, and DB.
 
 ---
@@ -182,4 +182,3 @@ A portable Grafana dashboard JSON file is provided in `dashboards/grafana-pr-bot
 
 This project is licensed under the [Apache License 2.0](LICENSE).  
 Apache DevLake is an open-source project by The Apache Software Foundation.
-
