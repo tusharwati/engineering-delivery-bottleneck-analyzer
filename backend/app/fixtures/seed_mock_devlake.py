@@ -59,23 +59,24 @@ class ToolGitHubReviewModel(BaseDevLake):
     body = Column(Text, nullable=True)
 
 
-def seed_mock_devlake_database(db_url: str = None):
+def seed_mock_devlake_database(db_url: str = None, engine = None):
     """
     Creates mock DevLake tables and seeds realistic synthetic data.
     Allows zero-dependency local startup without needing live MySQL or Docker.
     """
-    target_url = db_url or settings.DEVLAKE_DB_URL
-    logger.info(f"Seeding mock DevLake database at: {target_url}")
+    if engine is None:
+        target_url = db_url or settings.DEVLAKE_DB_URL
+        logger.info(f"Seeding mock DevLake database at: {target_url}")
 
-    if target_url.startswith("sqlite:///"):
-        db_path = target_url.replace("sqlite:///", "")
-        parent_dir = Path(db_path).parent
-        parent_dir.mkdir(parents=True, exist_ok=True)
+        if target_url.startswith("sqlite:///"):
+            db_path = target_url.replace("sqlite:///", "")
+            parent_dir = Path(db_path).parent
+            parent_dir.mkdir(parents=True, exist_ok=True)
 
-    engine = create_engine(
-        target_url,
-        connect_args={"check_same_thread": False} if "sqlite" in target_url else {},
-    )
+        engine = create_engine(
+            target_url,
+            connect_args={"check_same_thread": False} if "sqlite" in target_url else {},
+        )
 
     # 1. Create tables
     BaseDevLake.metadata.create_all(bind=engine)

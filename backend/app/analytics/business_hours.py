@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta, timezone
-from typing import List, Optional, Set
+from typing import Any, List, Optional, Set
 from zoneinfo import ZoneInfo
 from app.config import settings
 
@@ -19,8 +19,13 @@ class BusinessHoursResult:
         }
 
 
-def ensure_timezone_aware(dt: datetime, tz: ZoneInfo) -> datetime:
+def ensure_timezone_aware(dt: Any, tz: ZoneInfo) -> datetime:
     """Ensures datetime is timezone-aware and normalized to the target timezone."""
+    if isinstance(dt, str):
+        # Handle string timestamps from SQLite (e.g. '2026-10-09 03:00:00.000000')
+        clean_str = dt.replace(" ", "T")
+        dt = datetime.fromisoformat(clean_str)
+
     if dt.tzinfo is None:
         # Naive datetime from DB is assumed to be stored in UTC
         dt = dt.replace(tzinfo=timezone.utc)

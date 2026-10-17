@@ -70,6 +70,19 @@ class ReviewQualificationResult:
         }
 
 
+def parse_datetime(val: Any) -> Optional[datetime]:
+    if not val:
+        return None
+    if isinstance(val, datetime):
+        return val
+    if isinstance(val, str):
+        try:
+            return datetime.fromisoformat(val.replace(" ", "T"))
+        except Exception:
+            return None
+    return None
+
+
 def extract_qualifying_review(
     pr_author_id: str,
     pr_author_name: str,
@@ -99,7 +112,7 @@ def extract_qualifying_review(
             reviewer_name = r.get("user_name", "")
             reviewer_id = str(r.get("user_id", ""))
             state = (r.get("state") or "").upper()
-            submitted_at = r.get("submitted_at")
+            submitted_at = parse_datetime(r.get("submitted_at"))
 
             if not submitted_at:
                 continue
@@ -130,7 +143,7 @@ def extract_qualifying_review(
         commenter_id = str(c.get("account_id") or "")
         commenter_name = str(c.get("author_name") or commenter_id)
         c_type = (c.get("type") or "NORMAL").upper()
-        created_date = c.get("created_date")
+        created_date = parse_datetime(c.get("created_date"))
 
         if not created_date:
             continue

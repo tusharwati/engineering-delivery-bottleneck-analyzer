@@ -24,7 +24,7 @@ def in_memory_devlake_engine():
         poolclass=StaticPool,
     )
     BaseDevLake.metadata.create_all(bind=engine)
-    seed_mock_devlake_database("sqlite:///:memory:")
+    seed_mock_devlake_database(engine=engine)
     return engine
 
 

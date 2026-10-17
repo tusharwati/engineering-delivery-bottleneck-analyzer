@@ -72,11 +72,17 @@ class BottleneckAnalyzerService:
         rows = db.execute(sql, params).fetchall()
         comments_by_pr: Dict[str, List[Dict[str, Any]]] = {pid: [] for pid in pr_ids}
         for r in rows:
+            c_date = r[3]
+            if isinstance(c_date, str):
+                try:
+                    c_date = datetime.fromisoformat(c_date.replace(" ", "T"))
+                except Exception:
+                    pass
             comments_by_pr[str(r[1])].append({
                 "id": str(r[0]),
                 "pull_request_id": str(r[1]),
                 "account_id": str(r[2]),
-                "created_date": r[3],
+                "created_date": c_date,
                 "type": str(r[4]),
                 "review_id": str(r[5]) if r[5] else None,
                 "body": str(r[6]) if r[6] else "",
@@ -107,13 +113,19 @@ class BottleneckAnalyzerService:
             rows = db.execute(sql, params).fetchall()
             reviews_by_pr: Dict[str, List[Dict[str, Any]]] = {pid: [] for pid in pr_ids}
             for r in rows:
+                s_date = r[5]
+                if isinstance(s_date, str):
+                    try:
+                        s_date = datetime.fromisoformat(s_date.replace(" ", "T"))
+                    except Exception:
+                        pass
                 reviews_by_pr[str(r[1])].append({
                     "github_id": str(r[0]),
                     "pull_request_id": str(r[1]),
                     "user_id": str(r[2]),
                     "user_name": str(r[3]),
                     "state": str(r[4]),
-                    "submitted_at": r[5],
+                    "submitted_at": s_date,
                     "body": str(r[6]) if r[6] else "",
                 })
             return reviews_by_pr
@@ -154,6 +166,11 @@ class BottleneckAnalyzerService:
                 author_id = str(r[1])
                 author_name = str(r[2] or author_id)
                 created_dt = r[3]
+                if isinstance(created_dt, str):
+                    try:
+                        created_dt = datetime.fromisoformat(created_dt.replace(" ", "T"))
+                    except Exception:
+                        pass
                 qual_review = extract_qualifying_review(
                     pr_author_id=author_id,
                     pr_author_name=author_name,
@@ -235,6 +252,11 @@ class BottleneckAnalyzerService:
             author_id = str(pr[5])
             author_name = str(pr[6] or author_id)
             created_dt = pr[7]
+            if isinstance(created_dt, str):
+                try:
+                    created_dt = datetime.fromisoformat(created_dt.replace(" ", "T"))
+                except Exception:
+                    pass
             additions = int(pr[8])
             deletions = int(pr[9])
             comment_count = int(pr[10])
