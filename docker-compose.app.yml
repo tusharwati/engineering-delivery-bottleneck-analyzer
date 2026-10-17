@@ -1,0 +1,64 @@
+# ==============================================================================
+# Engineering Delivery Bottleneck Analyzer: Companion Application Services
+# ==============================================================================
+
+version: '3.8'
+
+networks:
+  devlake-net:
+    external: true
+
+volumes:
+  analyzer-data:
+
+services:
+  analyzer-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bottleneck-analyzer-backend
+    restart: unless-stopped
+    environment:
+      DEVLAKE_DB_URL: ${DEVLAKE_DB_URL:-mysql+pymysql://merico:merico@devlake-db:3306/lake?charset=utf8mb4}
+      APP_DB_URL: sqlite:////app/data/app_state.db
+      TIMEZONE: ${TIMEZONE:-Asia/Kolkata}
+      WORK_DAYS: ${WORK_DAYS:-0,1,2,3,4}
+      WORK_START_TIME: ${WORK_START_TIME:-09:30}
+      WORK_END_TIME: ${WORK_END_TIME:-18:30}
+      REVIEW_SLA_HOURS: ${REVIEW_SLA_HOURS:-8.0}
+      HOLIDAYS_JSON: ${HOLIDAYS_JSON:-["2026-01-01","2026-01-26","2026-08-15","2026-10-02","2026-12-25"]}
+      EXCLUDE_BOTS: ${EXCLUDE_BOTS:-true}
+      INCLUDE_NORMAL_COMMENTS_AS_REVIEW: ${INCLUDE_NORMAL_COMMENTS_AS_REVIEW:-false}
+      MIN_HISTORICAL_SAMPLE_SIZE: ${MIN_HISTORICAL_SAMPLE_SIZE:-10}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:-}
+      ALERT_DRY_RUN: ${ALERT_DRY_RUN:-true}
+      ALERT_COOLDOWN_HOURS: ${ALERT_COOLDOWN_HOURS:-24}
+      POLL_INTERVAL_MINUTES: ${POLL_INTERVAL_MINUTES:-30}
+      HOST: 0.0.0.0
+      PORT: 8000
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      CORS_ORIGINS: "*"
+    ports:
+      - "8000:8000"
+    volumes:
+      - analyzer-data:/app/data
+    networks:
+      - devlake-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  analyzer-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bottleneck-analyzer-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - analyzer-backend
+    networks:
+      - devlake-net

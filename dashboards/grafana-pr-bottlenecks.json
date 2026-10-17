@@ -1,0 +1,277 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Review Queue Overview & SLA Health",
+      "type": "row"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 10 },
+              { "color": "red", "value": 25 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT COUNT(id) AS 'Total Open PRs' FROM pull_requests WHERE status = 'OPEN' AND merged_date IS NULL AND closed_date IS NULL AND (base_repo_id IN ($repo_id) OR '$repo_id' = 'All');",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Open PRs",
+      "type": "stat"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null },
+              { "color": "yellow", "value": 5 },
+              { "color": "red", "value": 15 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT COUNT(DISTINCT pr.id) AS 'Awaiting First Review' FROM pull_requests pr LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL AND (pr.base_repo_id IN ($repo_id) OR '$repo_id' = 'All');",
+          "refId": "A"
+        }
+      ],
+      "title": "Awaiting Qualifying Review",
+      "type": "stat"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 3 },
+              { "color": "red", "value": 8 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT COUNT(DISTINCT pr.id) AS 'Overdue (>24 Calendar Hours)' FROM pull_requests pr LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL AND TIMESTAMPDIFF(HOUR, pr.created_date, NOW()) > 24 AND (pr.base_repo_id IN ($repo_id) OR '$repo_id' = 'All');",
+          "refId": "A"
+        }
+      ],
+      "title": "Overdue (>24h Calendar Time)",
+      "type": "stat"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "unit": "h"
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT COALESCE(AVG(TIMESTAMPDIFF(HOUR, pr.created_date, NOW())), 0) AS 'Avg Waiting Time (h)' FROM pull_requests pr LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL AND (pr.base_repo_id IN ($repo_id) OR '$repo_id' = 'All');",
+          "refId": "A"
+        }
+      ],
+      "title": "Avg Unreviewed Wait Time (Wall-Clock)",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "title": "Unreviewed Pull Request Queue (Detailed)",
+      "type": "row"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          }
+        }
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 6 },
+      "id": 5,
+      "options": {
+        "showHeader": true
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT pr.id AS 'PR ID', pr.base_repo_id AS 'Repo', pr.title AS 'Title', pr.author_name AS 'Author', pr.created_date AS 'Created At', TIMESTAMPDIFF(HOUR, pr.created_date, NOW()) AS 'Wall-Clock Hours Waiting', pr.additions AS 'Additions', pr.deletions AS 'Deletions' FROM pull_requests pr LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL AND (pr.base_repo_id IN ($repo_id) OR '$repo_id' = 'All') ORDER BY pr.created_date ASC LIMIT 50;",
+          "refId": "A"
+        }
+      ],
+      "title": "Oldest Open PRs Awaiting First Review",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "id": 102,
+      "title": "Repository-Level Bottleneck Distribution",
+      "type": "row"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" }
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "id": 6,
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT r.name AS 'Repository', COUNT(pr.id) AS 'Open Awaiting Review' FROM pull_requests pr JOIN repos r ON pr.base_repo_id = r.id LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL GROUP BY r.name ORDER BY 2 DESC;",
+          "refId": "A"
+        }
+      ],
+      "title": "Unreviewed PRs by Repository",
+      "type": "barchart"
+    },
+    {
+      "datasource": "DevLake",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "unit": "h"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "id": 7,
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "rawSql": "SELECT r.name AS 'Repository', AVG(TIMESTAMPDIFF(HOUR, pr.created_date, NOW())) AS 'Avg Wall-Clock Wait (h)' FROM pull_requests pr JOIN repos r ON pr.base_repo_id = r.id LEFT JOIN pull_request_comments prc ON pr.id = prc.pull_request_id AND prc.account_id != pr.author_id AND prc.type IN ('DIFF', 'REVIEW') WHERE pr.status = 'OPEN' AND pr.merged_date IS NULL AND pr.closed_date IS NULL AND prc.id IS NULL GROUP BY r.name ORDER BY 2 DESC;",
+          "refId": "A"
+        }
+      ],
+      "title": "Average Waiting Duration by Repository",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["devlake", "pull-requests", "bottlenecks", "code-review"],
+  "templating": {
+    "list": [
+      {
+        "allValue": "All",
+        "current": { "selected": true, "text": "All", "value": "All" },
+        "datasource": "DevLake",
+        "definition": "SELECT DISTINCT id, name FROM repos ORDER BY name;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Repository",
+        "multi": false,
+        "name": "repo_id",
+        "options": [],
+        "query": "SELECT DISTINCT id, name FROM repos ORDER BY name;",
+        "refresh": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": ["30s", "1m", "5m", "15m", "30m", "1h"]
+  },
+  "timezone": "browser",
+  "title": "Engineering Delivery Bottleneck Analyzer (DevLake)",
+  "uid": "devlake-pr-bottlenecks",
+  "version": 1
+}
